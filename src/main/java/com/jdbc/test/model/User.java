@@ -1,6 +1,7 @@
 package com.jdbc.test.model;
 
 import com.jdbc.test.annotations.DAOField;
+import com.jdbc.test.annotations.DAOPrimary;
 import com.jdbc.test.annotations.DAOTable;
 
 /**
@@ -8,14 +9,15 @@ import com.jdbc.test.annotations.DAOTable;
  */
 @DAOTable(name = "User")
 public class User {
+    @DAOPrimary
+    @DAOField
+    private String id;
+
     @DAOField
     private String username;
 
     @DAOField
     private String password;
-
-    @DAOField
-    private int ba;
 
     public User(String username, String password) {
         this.username = username;
