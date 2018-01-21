@@ -1,17 +1,16 @@
 package com.jdbc.test.model;
 
-import com.jdbc.test.annotations.DAOField;
-import com.jdbc.test.annotations.DAOPrimary;
-import com.jdbc.test.annotations.DAOTable;
+import com.jdbc.test.annotations.*;
 
 /**
  * Created by aram on 1/14/2018.
  */
 @DAOTable(name = "User")
 public class User {
-    @DAOPrimary
     @DAOField
-    private String id;
+    @DAOPrimary
+    @DAOIdentity
+    private Integer userid;
 
     @DAOField
     private String username;
@@ -19,9 +18,21 @@ public class User {
     @DAOField
     private String password;
 
+    @DAOField
+    @DAONullable
+    private String fullName;
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public String getUsername() {
@@ -38,5 +49,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

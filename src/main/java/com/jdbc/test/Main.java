@@ -1,5 +1,6 @@
 package com.jdbc.test;
 
+import com.jdbc.test.exceptions.SqlQueryGeneratorException;
 import com.jdbc.test.generator.SqlQueryGenerator;
 import com.jdbc.test.model.User;
 
@@ -8,7 +9,12 @@ import com.jdbc.test.model.User;
  */
 public class Main {
     public static void main(String[] args) {
-        SqlQueryGenerator generator = new SqlQueryGenerator(User.class);
-        System.out.println(generator.getCreateTableQuery());
+        SqlQueryGenerator generator = null;
+        try {
+            generator = new SqlQueryGenerator(User.class);
+            System.out.println(generator.getCreateTableQuery());
+        } catch (SqlQueryGeneratorException e) {
+            e.printStackTrace();
+        }
     }
 }
