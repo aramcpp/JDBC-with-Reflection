@@ -5,4 +5,5 @@ repositories {
 }
 
 dependencies {
+    compile "com.zaxxer:HikariCP:2.7.6"
 }
