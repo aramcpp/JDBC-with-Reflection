@@ -6,6 +6,7 @@ import com.jdbc.test.model.User;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Created by aram on 1/14/2018.
@@ -53,7 +54,7 @@ public class SqlQueryGenerator {
                     throw new SqlQueryGeneratorException("Only integer columns can be identity");
                 }
 
-                queryBuilder.append(" IDENTITY(1,1)");
+                queryBuilder.append(" AUTO_INCREMENT");
             }
 
             if (i != fields.length - 1) {
@@ -64,6 +65,21 @@ public class SqlQueryGenerator {
         queryBuilder.append(")");
 
         return queryBuilder.toString();
+    }
+
+    public String getInsertQuery() {
+        Field[] fields = Arrays.stream(User.class.getDeclaredFields())
+                .filter((field) -> field.isAnnotationPresent(DAOField.class)).toArray(Field[]::new);
+
+        String columns = Arrays.stream(fields)
+                .filter((x) -> !x.isAnnotationPresent(DAOIdentity.class))
+                .map((x) -> x.getName()).collect(Collectors.joining(", "));
+
+        String values = Arrays.stream(fields)
+                .filter((x) -> !x.isAnnotationPresent(DAOIdentity.class))
+                .map((x) -> "?").collect(Collectors.joining(", "));
+
+        return String.format("INSERT INTO %s (%s) VALUES (%s)", ((DAOTable) daoClass.getAnnotation(DAOTable.class)).name(), columns, values);
     }
 
     private String getSqlTypeFromJavaType(Class type) {

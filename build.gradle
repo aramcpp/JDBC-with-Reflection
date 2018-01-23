@@ -6,4 +6,5 @@ repositories {
 
 dependencies {
     compile "com.zaxxer:HikariCP:2.7.6"
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.2.1'
 }

@@ -20,7 +20,13 @@ public class Main {
             System.out.println(generator.getCreateTableQuery());
 
             try (Connection conn = DataSourceProvider.getConnection()) {
-                PreparedStatement statement = conn.prepareStatement(generator.getCreateTableQuery());
+                conn.prepareStatement(generator.getCreateTableQuery()).execute();
+
+                PreparedStatement statement = conn.prepareStatement(generator.getInsertQuery());
+
+                statement.setString(1, "a");
+                statement.setString(2, "b");
+                statement.setString(3, "c");
 
                 statement.execute();
             } catch (SQLException e) {
